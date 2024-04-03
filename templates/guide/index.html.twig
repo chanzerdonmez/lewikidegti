@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Guides{% endblock %}
+
+
+
+{% block body %}
+<div class="container-guide">
+    <button id="toggleSidebar"><i class="fa-solid fa-list-ul"></i></button>
+
+    <div class="sidebar">
+
+        <ul>
+            <li>
+               <h3>Nos guides techniques</h3>
+            </li>
+        </ul>
+        <br>
+        <ul>
+            {% for category in categories %}
+                {% set has_visible_subcategories = false %}
+                {% for subcategory in category.getSousCategories() %}
+                    {% set has_public_articles_in_subcategory = false %}
+                    {% for article in subcategory.getArticles() %}
+                        {% if not article.isPrive() %}
+                            {% set has_public_articles_in_subcategory = true %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if has_public_articles_in_subcategory or is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                        {% set has_visible_subcategories = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if has_visible_subcategories %}
+                    <li class="category-item" id="category_{{ category.id }}">
+                        {{ category.getTitre() }}
+                        <ul>
+                            {% for subcategory in category.getSousCategories() %}
+                                {% set has_public_articles_in_subcategory = false %}
+                                {% for article in subcategory.getArticles() %}
+                                    {% if not article.isPrive() %}
+                                        {% set has_public_articles_in_subcategory = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if has_public_articles_in_subcategory or is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                                    <li class="subcategory-item" id="subcategory_{{ subcategory.id }}">
+                                        <span class="arrow-down">→</span>{{ subcategory.getTitre() }}
+                                        <ul style="display: none;">
+                                            {% for article in subcategory.getArticles() %}
+                                                {% if not article.isPrive() or is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                                                    <li class="link-item">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ path('detail_guide', {article:article.id}) }}">
+                                                            {{ article.titre }}
+                                                            {% if article.isPrive() %}
+                                                                {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                                                                    {% if article.isPrive() == true %}
+                                                                        🛡️
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="main-content">
+        <h3 class="article-title" id="articleTitle">Parcourez nos guides techniques organisés par catégories et sous-catégories pour trouver les réponses dont vous avez besoin.</h3>
+                                {# <img class="monsieur" style="width: 450px" src="{{ asset('img/moss.png') }}" alt="Logo"> #}
+
+    </div>
+    
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const subcategories = document.querySelectorAll('.subcategory-item');
+
+        subcategories.forEach(function(subcategory) {
+            const arrow = subcategory.querySelector('.arrow-down');
+            const subcategoryList = subcategory.querySelector('ul');
+
+            subcategory.addEventListener('click', function() {
+                if (subcategoryList.style.display === 'none' || subcategoryList.style.display === '') {
+                    subcategoryList.style.display = 'block';
+                    arrow.innerHTML = '↓'; // Change la flèche vers le bas
+                } else {
+                    subcategoryList.style.display = 'none';
+                    arrow.innerHTML = '→'; // Change la flèche vers la droite
+                }
+            });
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleButton = document.getElementById('toggleSidebar');
+        const sidebar = document.querySelector('.sidebar');
+
+        toggleButton.addEventListener('click', function() {
+            if (sidebar.style.display === 'none' || sidebar.style.display === '') {
+                sidebar.style.display = 'block';
+            } else {
+                sidebar.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{% endblock %}

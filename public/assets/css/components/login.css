@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+.container-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5.513rem;
+    min-height: 100vh;
+}
+
+.container-login h1 {
+    margin-bottom: 2.5rem; /* 40px en remplacement */
+    font-family: "Jost", sans-serif;
+    font-weight: 450;
+}
+
+.container-login form button {
+    width: 23rem; /* 100% en remplacement */
+    padding: 1rem;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    height: 47.39px;
+    margin-top: 1.875rem; /* 30px en remplacement */
+    margin-bottom: 0.625rem; /* 10px en remplacement */
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 1.125rem; /* 18px en remplacement */
+}
+
+.container-login form input {
+    display: flex;
+    flex-direction: column;
+    width: 23rem; /* 100% en remplacement */
+    padding: 0.7rem;
+    margin-bottom: 0.625rem; /* 10px en remplacement */
+    border: 0.0625rem solid #ccc; /* 1px en remplacement */
+    border-radius: 0.5rem;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px; /* 15px en remplacement */
+}
+
+.container-login form .mdp {
+    text-align: start;
+    cursor: pointer;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px; /* 15px en remplacement */
+    color: #262626;
+}
+
+.container-login form .mdp a{
+    text-align: start;
+    cursor: pointer;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px; /* 15px en remplacement */
+    color: #262626;
+}
+
+.container-login form .inscription {
+    text-align: start;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px; /* 15px en remplacement */
+    color: #262626;
+}
+
+.container-login form .inscription a{
+    cursor: pointer;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px; /* 15px en remplacement */
+    color: #262626;
+}
+
+.button-login {
+    background-color: #262626;
+    color: white;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.container-login form input:focus,
+.container-login form button:focus {
+    outline: none;
+}

@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+.footer-base {
+height: 10rem;
+width: 100%;
+background-color: #262626;
+padding: 20px;
+padding: 2rem;
+font-family: "Jost", sans-serif; /* Appliquer la typographie */
+font-weight: 330;
+display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.footer-base .content-footer {
+    padding-top: 20px;
+    padding-top: 2rem;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px;
+
+}
+
+.content-footer .bloc-1-footer {
+    color: white;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px;
+
+}
+
+
+.copyright {
+    text-align: center;
+    color: white;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px;
+
+
+}

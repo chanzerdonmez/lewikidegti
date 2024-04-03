@@ -1,0 +1,16 @@
+.container-error404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ajuste la hauteur de la div à la taille de l'écran */
+    background-color: #ffcd00; /* Fond couleur jaune */
+    padding-top: 5.513rem;
+
+}
+
+.message404 img {
+    padding-top: 5.513rem;
+
+    width: 920px; /* Redimensionne l'image à 200 pixels de largeur */
+    height: auto; /* Garde le ratio hauteur/largeur */
+}

@@ -1,0 +1,73 @@
+.container-search {
+    display: flex;
+
+    height: 100vh;
+    padding-top: 5.513rem;
+    flex-direction: column;
+}
+
+.search2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 70px;
+}
+
+.container-search .search2  input {
+    width: 40rem;
+    padding: 0.7rem;
+    border: 0.0625rem solid #262626;
+    border-radius: 0.5rem;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px;
+}
+
+.search2 button {
+    padding: 0.7rem;
+    border: 0.0625rem solid #262626;
+    border-radius: 0 0.5rem 0.5rem 0;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 16px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 47.38px;
+    width: 47.38px;
+    cursor: pointer;
+    background-color: #262626;
+    color: white;
+}
+
+.container-search .search2 input:focus {
+    outline: none;
+}
+
+.search-results {
+    background-color: rgb(255, 255, 255);
+    text-align: center; /* Pour aligner le texte à gauche */
+    height: auto;
+    flex-direction: column;
+    padding-top: 70px;
+    text-align: start;
+    width: 40rem;
+    display: flex;
+    margin: 0;
+}
+
+.message {
+    list-style-type: none;
+    line-height: 190%;
+    font-family: "Jost", sans-serif; /* Appliquer la typographie */
+    font-weight: 300;
+    color: #666666;
+}
+
+@media screen and (max-width: 500px) {
+
+    .container-search .search2  input {
+        width: 20.100rem;
+    }
+}

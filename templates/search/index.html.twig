@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultats de la recherche{% endblock %}
+
+{% block body %}
+<div class="container-search">
+
+<form action="{{ path('app_search') }}" method="GET" class="search2">
+    <div class="input-wrapper">
+        <input type="search" id="site-search" name="q" placeholder="Rechercher un guide sur le wiki...">
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+</form>
+
+<div class="search-results">
+    <h3>Résultats de la recherche pour "{{ keyword }}"</h3>
+    <ul>
+        {% for article in articles %}
+            <div class="message">
+                <a href="{{ path('guide_index', {'title': article.titre, 'content': article.contenu, 'date': article.createdAt|date('d/m/Y')}) }}">{{ article.titre }}</a>
+            </div>
+        {% else %}
+            <div class="message">Aucun résultat trouvé... 😞</div>
+        {% endfor %}
+    </ul>
+</div>
+</div>
+{% endblock %}

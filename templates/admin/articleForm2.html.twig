@@ -1,0 +1,88 @@
+{% extends '@EasyAdmin/crud/form_theme.html.twig' %}
+
+{% block ea_text_editor_widget %}
+    <textarea id="{{ id }}" name="Article[contenu]" class="trix-content tinymce" role="textbox">{{ data }}</textarea>
+
+    <script src="{{ asset('assets/bundles/tinymce/ext/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('bundles/tinymce/ext/tinymce-webcomponent.js') }}" type="module"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+    <script>
+        tinymce.init({
+            selector: '.tinymce',
+            width: '1000px',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat | downloadPdf',
+            tinycomments_mode: 'embedded',
+
+            images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', 'upload.php');
+
+                xhr.upload.onprogress = (e) => {
+                    progress(e.loaded / e.total * 100);
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status === 403) {
+                        reject({
+                            message: 'HTTP Error: ' + xhr.status,
+                            remove: true
+                        });
+                        return;
+                    }
+
+                    if (xhr.status < 200 || xhr.status >= 300) {
+                        console.log(xhr);
+                        reject('HTTP Error: ' + xhr.status + ' ' + xhr.statusText);
+                        return;
+                    }
+
+                    const json = JSON.parse(xhr.responseText);
+
+                    if (!json || typeof json.location != 'string') {
+                        reject('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+
+                    resolve(json.location);
+                };
+
+                xhr.onerror = () => {
+                    reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+                };
+
+                const formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                xhr.send(formData);
+            }),
+
+            setup: function (editor) {
+
+                              editor.on('init', function () {
+editor.insertContent('<img src="/img/gtitop.png" alt="Votre image" style="max-width: 100%;">');
+                });
+
+                editor.ui.registry.addButton('downloadPdf', {
+                    icon: 'export',
+                    tooltip: 'Télécharger en PDF',
+                    onAction: function () {
+                        const content = tinymce.activeEditor.getContent();
+                        const element = document.createElement('div');
+                        element.innerHTML = content;
+
+                        html2pdf().from(element).set({ 
+                            margin: 1,
+                            filename: 'document.pdf',
+                            image: { type: 'jpeg', quality: 1 },
+                            html2canvas: { scale: 2, logging: true },
+                            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                        }).save();
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}

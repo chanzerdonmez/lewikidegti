@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block body %}
+
+    <div class="container-register">
+        <h1>S'inscrire</h1>
+        <form method="post">
+
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.prenom, {'attr': {'placeholder': 'Prénom'}}) }}
+            {{ form_row(registrationForm.nom, {'attr': {'placeholder': 'Nom'}}) }}
+            {{ form_row(registrationForm.email, {'attr': {'placeholder': 'Adresse e-mail'}}) }}
+            {{ form_row(registrationForm.plainPassword, {'label': false, 'attr': {'placeholder': 'Mot de passe'}}) }}
+            <div class="mdp">Votre mot de passe doit être d'au moins 6 caractères.</div>
+
+            <button class="button-register" type="submit">S'inscrire</button>
+            <div class="inscription">
+    Déjà inscrit ? <a href="{{ path('app_login') }}">Connectez-vous ici !</a>
+</div>
+        {{ form_end(registrationForm) }}
+        
+    </div>
+   
+    </div>
+{% endblock %}

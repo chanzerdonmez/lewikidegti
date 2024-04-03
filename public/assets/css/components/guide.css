@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+.container-guide {
+    display: flex;
+    height: auto;
+    padding-top: 5.513rem;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 20rem;
+    background-color: #f0f0f0;
+    padding: 32px;
+    color: #262626;
+    flex: 0 0 23rem;
+    overflow-y: auto; /* Défilement vertical uniquement */
+    max-height: calc(150vh - 5.513rem); /* Hauteur maximale de la barre latérale */
+    position: relative; /* Ajout de position relative */
+}
+
+html {
+    overflow-y: scroll; /* Activation du défilement vertical pour la page entière */
+}
+
+body {
+    overflow-y: hidden; /* Désactiver le défilement vertical du corps lorsque la souris est dans la barre latérale */
+}
+
+.main-content {
+    flex-grow: 1; /* Faire en sorte que le contenu principal prenne tout l'espace restant */
+    background-color: rgb(255, 255, 255);
+    padding: 32px;
+    overflow: auto;
+}
+
+.sidebar ul {
+    list-style-type: none;
+
+}
+
+
+/* Typographie pour toutes les listes dans la barre latérale */
+
+
+.category-item {
+    font-family: "Jost", sans-serif; /* Appliquer la typographie */
+    font-weight: 500;
+    line-height : 2;
+}
+
+/* Sous-catégorie */
+.subcategory-item {
+    font-family: "Jost", sans-serif; /* Appliquer la typographie */
+    font-weight: 400;
+    cursor: pointer;
+}
+
+/* Lien */
+.link-item a{
+    font-family: "Jost", sans-serif; /* Appliquer la typographie */
+    font-weight: 300;
+    color: #666666;
+    text-decoration:none;
+}
+
+.link-item a:hover {
+    color: #262626;
+}
+
+h3 {
+    font-family: "Jost", sans-serif; /* Appliquer la typographie */
+    font-weight: 600;
+}
+
+.article-title {
+    padding-bottom: 20px;
+}
+
+.article-content {
+    font-family: "Jost", sans-serif; /* Appliquer la typographie */
+    font-weight: 300;
+    line-height: 2;
+}
+
+.article-date {
+    font-family: "Jost", sans-serif; /* Appliquer la typographie */
+    font-weight: 300;
+    color: #666666;
+    margin-top: 40px;
+}
+
+.arrow-down {
+    float: left;
+    margin-right: 5px;
+    transition: transform 0.3s ease;
+}
+
+.rotate {
+    transform: rotate(90deg);
+}
+
+.main-content .btn-download-pdf {
+    width: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    height: 47.39px;
+    font-family: "Jost", sans-serif;
+    font-weight: 350;
+    font-size: 1.125rem;
+    background-color: #262626;
+    color: white;
+    cursor: pointer;
+}
+
+#toggleSidebar {
+    display: none; /* Par défaut, le bouton est caché */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+}
+#toggleSidebar:focus {
+    outline: none;
+}
+/* Style pour l'icône */
+#toggleIcon {
+    width: 20px;
+    height: 20px;
+    fill: #555; /* Couleur de l'icône */
+}
+
+@media screen and (max-width: 550px) {
+    #toggleSidebar {
+        display: block; /* Afficher le bouton uniquement sur les écrans de petite taille */
+    }
+}

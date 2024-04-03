@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Guides{% endblock %}
+
+{% block body %}
+<div class="container-guide">
+    <button id="toggleSidebar"><i class="fa-solid fa-list-ul"></i></button>
+
+    <div class="sidebar">
+        <ul>
+            <li>
+               <h3>Nos guides techniques</h3>
+            </li>
+        </ul>
+        <br>
+        <ul>
+            {% for category in categories %}
+                {% set has_visible_subcategories = false %}
+                {% for subcategory in category.getSousCategories() %}
+                    {% set has_public_articles_in_subcategory = false %}
+                    {% for article in subcategory.getArticles() %}
+                        {% if not article.isPrive() %}
+                            {% set has_public_articles_in_subcategory = true %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if has_public_articles_in_subcategory or is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                        {% set has_visible_subcategories = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if has_visible_subcategories %}
+                    <li class="category-item" id="category_{{ category.id }}">
+                        {{ category.getTitre() }}
+                        <ul>
+                            {% for subcategory in category.getSousCategories() %}
+                                {% set has_public_articles_in_subcategory = false %}
+                                {% for article in subcategory.getArticles() %}
+                                    {% if not article.isPrive() %}
+                                        {% set has_public_articles_in_subcategory = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if has_public_articles_in_subcategory or is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                                    <li class="subcategory-item" id="subcategory_{{ subcategory.id }}">
+                                        <span class="arrow-down">→</span> &nbsp;{{ subcategory.getTitre() }}
+                                        <ul style="display: none;">
+                                            {% for article in subcategory.getArticles() %}
+                                                {% if not article.isPrive() or is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                                                    <li class="link-item">
+                                                        &nbsp;&nbsp;<a href="{{ path('detail_guide', {article:article.id}) }}">
+                                                            {{ article.titre }}
+                                                            {% if article.isPrive() %}
+                                                                {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                                                                    {% if article.isPrive() == true %}
+                                                                        🛡️
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="main-content">
+{% if article %}
+    <h3 class="article-title" id="articleTitle">{{article.titre}}</h3>
+            <div class="article-content" id="articleContent">{{article.contenu|raw}}</div>
+        <div class="article-date" id="articleDate">Publié le : {{ article.createdAt|date('d/m/Y', 'Europe/Paris') }}</div>
+
+        <br>
+        <button onclick="#" class="btn-download-pdf">Télécharger ce guide</button>
+
+{% endif %}
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const subcategories = document.querySelectorAll('.subcategory-item');
+
+        subcategories.forEach(function(subcategory) {
+            const arrow = subcategory.querySelector('.arrow-down');
+            const subcategoryList = subcategory.querySelector('ul');
+
+            subcategory.addEventListener('click', function() {
+                if (subcategoryList.style.display === 'none' || subcategoryList.style.display === '') {
+                    subcategoryList.style.display = 'block';
+                    arrow.innerHTML = '↓'; // Change la flèche vers le bas
+                } else {
+                    subcategoryList.style.display = 'none';
+                    arrow.innerHTML = '→'; // Change la flèche vers la droite
+                }
+            });
+        });
+    });
+
+     document.addEventListener('DOMContentLoaded', function() {
+        const btnDownloadPdf = document.querySelector('.btn-download-pdf');
+
+        btnDownloadPdf.addEventListener('click', function() {
+            // Sélection du contenu de la div .main-content
+            const contenuHtml = document.querySelector('.main-content').innerHTML;
+
+            // Envoi du contenu au serveur Symfony pour la génération du PDF
+            fetch('{{ path('telecharger_pdf') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ contenuHtml: contenuHtml }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la génération du PDF');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Création d'un lien temporaire pour télécharger le PDF
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'contenu.pdf';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+        });
+    });
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const toggleButton = document.getElementById('toggleSidebar');
+        const sidebar = document.querySelector('.sidebar');
+
+        toggleButton.addEventListener('click', function() {
+            if (sidebar.style.display === 'none' || sidebar.style.display === '') {
+                sidebar.style.display = 'block';
+            } else {
+                sidebar.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{% endblock %}

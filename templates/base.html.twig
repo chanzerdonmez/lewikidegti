@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    {% block stylesheets %}<link href="{{ asset('/assets/css/app.css') }}" rel="stylesheet"/>{% endblock %}
+
+</head>
+<body>
+<header>
+    <a href="{{ path('app_home') }}">
+        <img class="logo" src="{{ asset('img/logo1.png') }}" alt="Logo">
+    </a>
+    <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i></button>
+    <nav class="nav" id="nav">
+        <button class="cerrar-menu" id="cerrar"><i class="bi bi-list"></i></button>
+        <ul class="nav-list">
+            {# <li><input type="search" id="gsearch" name="gsearch"></li> #}
+            <li><a href="{{ path('guide_index') }}">Guides</a></li>
+            <li><a href="{{ path('app_bank') }}">Banque d'images</a></li>
+            <li><a href="https://www.gti.eu/contact/">Contactez-nous</a></li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('admin') }}">Dashboard</a></li>
+            {% endif %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+            {% else %}
+                <li><a href="{{ path('app_login') }}">Connexion</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+
+
+{% block body %}{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+<script src="{{ asset('js/script.js') }}"></script>
+
+<footer>
+
+<div class="footer-base">
+
+  <div class="copyright">
+    Copyright © 2024 | Developpé avec amour par GTI 👨🏻‍💻</div>
+
+</div>
+
+</footer>
+</body>
+</html>

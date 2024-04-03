@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<div class="container-home">
+		<div class="search">
+			<img src="/img/bubu3.jpg" alt="Background Image" class="background-image">
+			<div class="welcome">Explorez notre wiki !</div>
+			<form action="{{ path('app_search') }}" method="GET" class="search2">
+				<div class="input-wrapper">
+					<input type="search" id="site-search" name="q" placeholder="Rechercher un guide sur le wiki...">
+					<button type="submit">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+				</div>
+			</form>
+
+			<div class="last-guide">
+
+				<h3>Guide récemment mis en ligne</h3>
+				{% if latestArticle is not null %}
+					<a href="{{ path('detail_guide', {article: latestArticle.id}) }}" class="emplacement">{{ latestArticle.titre }}</a>
+				{% endif %}
+			</div>
+		</div>
+		<div class="actu">
+			<div class="phrase">
+				J'ai une interface intuitive,<br>
+				un design compact et accrocheur<br>
+				et surtout un large choix de paiement sans contact...<br><br>
+				Je suis l'Onyx.
+			</div>
+			<img class="monsieur" src="{{ asset('img/monsieuronyx.png') }}" alt="Logo">
+
+		</div>
+	</div>
+
+
+{% endblock %}
